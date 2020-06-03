@@ -1,0 +1,418 @@
+[1mdiff --git a/com/usthb/EUREKA.java b/com/usthb/EUREKA.java[m
+[1mindex ecb8d4b..1574c31 100644[m
+[1m--- a/com/usthb/EUREKA.java[m
+[1m+++ b/com/usthb/EUREKA.java[m
+[36m@@ -1,23 +1,32 @@[m
+[31m-package EUREKA.com.usthb;[m
+[32m+[m[32mpackage com.usthb;[m
+ [m
+[31m-import EUREKA.com.usthb.dessin.*;[m
+[31m-import EUREKA.com.usthb.modeles.*;[m
+[32m+[m[32mimport com.usthb.modeles.*;[m
+ [m
+ import java.io.File;[m
+[32m+[m[32mimport java.io.FileInputStream;[m
+[32m+[m[32mimport java.io.FileOutputStream;[m
+ import java.io.IOException;[m
+[32m+[m[32mimport java.io.ObjectInputStream;[m
+[32m+[m[32mimport java.io.ObjectOutputStream;[m
+ import java.io.PrintWriter;[m
+[32m+[m[32mimport java.nio.charset.StandardCharsets;[m
+ import java.nio.file.Files;[m
+ import java.nio.file.Paths;[m
+[32m+[m[32mimport java.text.DateFormat;[m
+ import java.time.LocalDate;[m
+ import java.time.ZoneId;[m
+[32m+[m[32mimport java.util.Arrays;[m
+ import java.util.Date;[m
+ import java.util.HashMap;[m
+ import java.util.HashSet;[m
+ import java.util.Iterator;[m
+ import java.util.LinkedList;[m
+[31m-import javax.swing.SwingUtilities;[m
+[32m+[m[32mimport java.util.Locale;[m
+ import javafx.application.Application;[m
+[31m-import javafx.embed.swing.SwingNode;[m
+[32m+[m[32mimport javafx.beans.binding.Bindings;[m
+[32m+[m[32mimport javafx.beans.property.SimpleStringProperty;[m
+[32m+[m[32mimport javafx.collections.FXCollections;[m
+[32m+[m[32mimport javafx.collections.ObservableList;[m
+ import javafx.geometry.HPos;[m
+ import javafx.geometry.Insets;[m
+ import javafx.geometry.Pos;[m
+[36m@@ -32,37 +41,65 @@[m [mimport javafx.scene.control.Button;[m
+ import javafx.scene.control.DatePicker;[m
+ import javafx.scene.control.Label;[m
+ import javafx.scene.control.PasswordField;[m
+[32m+[m[32mimport javafx.scene.control.RadioButton;[m
+[32m+[m[32mimport javafx.scene.control.TableColumn;[m
+[32m+[m[32mimport javafx.scene.control.TableView;[m
+ import javafx.scene.control.TextField;[m
+[31m-import javafx.scene.image.ImageView;[m
+[32m+[m[32mimport javafx.scene.control.ToggleGroup;[m
+[32m+[m[32mimport javafx.scene.control.cell.PropertyValueFactory;[m
+ import javafx.scene.layout.ColumnConstraints;[m
+ import javafx.scene.layout.GridPane;[m
+ import javafx.scene.layout.HBox;[m
+ import javafx.scene.layout.Priority;[m
+ import javafx.scene.layout.RowConstraints;[m
+[31m-import javafx.scene.layout.StackPane;[m
+[32m+[m[32mimport javafx.scene.layout.TilePane;[m
+ import javafx.scene.layout.VBox;[m
+ import javafx.scene.text.Font;[m
+ import javafx.scene.text.FontWeight;[m
+ import javafx.scene.text.Text;[m
+ import javafx.scene.text.TextAlignment;[m
+ [m
+[32m+[m[32m@SuppressWarnings({"unchecked"})[m
+ public class EUREKA extends Application {[m
+[31m-    HashMap<Integer, Joueur> users = new HashMap<Integer, Joueur>();[m
+[31m-    HashSet<ThemeJeu> themes = new HashSet<ThemeJeu>();[m
+[31m-    Stage window;[m
+[31m-    Scene mainGame;[m
+[31m-    //String imagesFolder = "file:///C:/Users/Nadhir/Desktop/Docs/JavaFx/com/usthb/";[m
+[31m-    //String questionsFile = "C:\\Users\\Me\\Desktop\\Docs\\JavaFx\\com\\usthb\\questions.txt";[m
+[31m-    String imagesFolder = "";[m
+[31m-    String questionsFile = "";[m
+[32m+[m[32m    public static HashMap<Integer, Joueur> users = new HashMap<Integer, Joueur>(); // le map contenant tous les utilisateurs[m
+[32m+[m[32m    public static HashSet<ThemeJeu> themes = new HashSet<ThemeJeu>(); // le set contenat tous les themes[m
+[32m+[m
+[32m+[m[32m    public static Stage window;[m
+[32m+[m[32m    public static Scene mainGame;[m
+[32m+[m[32m    public static Scene buttonsScene;[m
+[32m+[m
+[32m+[m[32m    // public static String questionsFile = "C:\\Users\\Me\\Desktop\\Docs\\JavaFx\\com\\usthb\\questions.txt";[m
+[32m+[m[32m    // public static String imagesFolder = "file:///C:/Users/Me/Desktop/Docs/JavaFx/com/usthb/";[m
+[32m+[m[32m    // public static String usersFile = C:\\Users\\Me\\Desktop\\Docs\\JavaFx\\com\\usthb\\users.txt";[m
+[32m+[m[32m    public static String questionsFile = ""; // chemin du fichier des questions[m
+[32m+[m[32m    public static String imagesFolder = ""; // chemin du dossier des images[m
+[32m+[m[32m    public static String usersFile = ""; // chemin du fichier des utilisateurs[m
+[32m+[m
+     String[] allThemes = new String[] { "Histoire", "Géographie", "Santé", "Culture Générale", "Islam" };[m
+[31m-    String[][][] questions = new String[5][5][3];[m
+[31m-    public static void main(String[] args) {[m
+[32m+[m[32m    String[][][] questions; // toutes les questions[m
+[32m+[m[32m    LinkedList<Question> questionsList[] = new LinkedList[5];[m
+[32m+[m
+[32m+[m[32m    boolean saveData = true;[m
+[32m+[m
+[32m+[m[32m    public static void main(String[] args) { // MAIN[m
+         launch(args);[m
+     }[m
+ [m
+[32m+[m[32m    public boolean checkIfItExists(String path) {[m
+[32m+[m[32m        File file = new File(path);[m
+[32m+[m[32m        return file.exists();[m
+[32m+[m[32m    }[m
+[32m+[m
+     @Override[m
+[31m-    public void start(Stage primaryStage) {[m
+[32m+[m[32m    public void start(Stage primaryStage) { // cette fonction lancera au début[m
+[32m+[m
+[32m+[m[32m        // vérifier si les fichiers users.txt, questions.txt et le dossier images existent dans le répertoire du programme[m
+[32m+[m[32m        if (checkIfItExists(System.getProperty("user.dir")+"\\questions.txt")) questionsFile = System.getProperty("user.dir")+"\\questions.txt";[m
+[32m+[m[32m        if (checkIfItExists(System.getProperty("user.dir")+"\\users.txt")) usersFile = System.getProperty("user.dir")+"\\users.txt";[m
+[32m+[m[32m        if (checkIfItExists(System.getProperty("user.dir")+"\\images")) imagesFolder = "file///:"+(System.getProperty("user.dir")+"\\images/").replace("\\", "/");[m
+[32m+[m[41m        [m
+[32m+[m[32m        // vérifier s'il y a des données précédentes de ce programme enregistrées dans eureka.data[m
+[32m+[m[32m        if (saveData) saveDataFile(true);[m
+ [m
+         window = primaryStage;[m
+ [m
+[36m@@ -72,15 +109,19 @@[m [mpublic class EUREKA extends Application {[m
+         mainLayout.setAlignment(Pos.CENTER);[m
+         mainLayout.setPrefWidth(150);[m
+ [m
+[32m+[m[32m        // les buttons[m
+         Button regButton = new Button("S'inscrire");[m
+         Button loginButton = new Button("S'identifier");[m
+         Button settingsButton = new Button("Préférences");[m
+[32m+[m[32m        Button usersButton = new Button("Utilisateurs");[m
+         Button aboutBtn = new Button("À propos");[m
+         regButton.setMinWidth(mainLayout.getPrefWidth());[m
+         loginButton.setMinWidth(mainLayout.getPrefWidth());[m
+         settingsButton.setMinWidth(mainLayout.getPrefWidth());[m
+[32m+[m[32m        usersButton.setMinWidth(mainLayout.getPrefWidth());[m
+         aboutBtn.setMinWidth(mainLayout.getPrefWidth());[m
+[31m-        [m
+[32m+[m
+[32m+[m[32m        // fonctions des buttons[m
+         regButton.setOnAction(e -> {[m
+             createRegisterPage(mainScene);[m
+         });[m
+[36m@@ -88,27 +129,31 @@[m [mpublic class EUREKA extends Application {[m
+             createLoginPage(mainScene);[m
+         });[m
+         settingsButton.setOnAction(e -> {[m
+[31m-            createSettingsPage(mainScene,mainLayout);[m
+[32m+[m[32m            createSettingsPage(mainScene, mainLayout);[m
+[32m+[m[32m        });[m
+[32m+[m[32m        usersButton.setOnAction(e -> {[m
+[32m+[m[32m            afficherInfosJoueursInscrits(mainScene);[m
+         });[m
+         aboutBtn.setOnAction(e -> {[m
+             createAboutPage(mainScene);[m
+         });[m
+ [m
+[31m-        mainLayout.getChildren().addAll(regButton, loginButton, settingsButton, aboutBtn);[m
+[32m+[m[32m        // l'ajout de composants à la disposition principale[m
+[32m+[m[32m        mainLayout.getChildren().addAll(regButton, loginButton, settingsButton, usersButton, aboutBtn);[m
+         mainLayout.requestFocus();[m
+ [m
+[32m+[m[32m        // réglage de la fenêtre[m
+         window.setScene(mainScene);[m
+         window.setResizable(false);[m
+[31m-        window.sizeToScene(); // because setResizable() adds some weird margins idk why[m
+[31m-[m
+[32m+[m[32m        window.sizeToScene();[m
+         window.setTitle("EUREKA");[m
+ [m
+[31m-[m
+[31m-        initThemes(regButton,loginButton);[m
+[31m-[m
+[31m-        window.show();[m
+[32m+[m[32m        initQuestionsList(regButton, loginButton); // initialisations des questions[m
+[32m+[m[32m        loadUsers(); // chargement des utilisateurs du fichier[m
+[32m+[m[41m        [m
+[32m+[m[32m        window.show(); // lancement de la fenêtre[m
+     }[m
+[31m-    [m
+[32m+[m
+     public void createRegisterPage(Scene mainScene) {[m
+         GridPane regLayout = new GridPane();[m
+         Scene regScene = new Scene(regLayout, 640, 320);[m
+[36m@@ -116,56 +161,74 @@[m [mpublic class EUREKA extends Application {[m
+         regLayout.setPadding(new Insets(20, 20, 20, 20));[m
+         regLayout.setHgap(20);[m
+         regLayout.setVgap(20);[m
+[32m+[m
+[32m+[m[32m        // création de colonnes et de lignes du GridPane[m
+         ColumnConstraints culumn1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);[m
+         culumn1.setHalignment(HPos.RIGHT);[m
+[31m-[m
+[31m-        // columnTwoConstraints will be applied to all the nodes placed in column two.[m
+[31m-        ColumnConstraints column2 = new ColumnConstraints(200,200, Double.MAX_VALUE);[m
+[32m+[m[32m        ColumnConstraints column2 = new ColumnConstraints(200, 200, Double.MAX_VALUE);[m
+         column2.setHgrow(Priority.ALWAYS);[m
+[31m-[m
+         regLayout.getColumnConstraints().addAll(culumn1, column2);[m
+[31m-        // Add Header[m
+[32m+[m
+[32m+[m[32m        // l'ajout de composants[m
+         Label headerLabel = new Label("S'inscrire");[m
+         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));[m
+[31m-        regLayout.add(headerLabel, 0,0,2,1);[m
+[32m+[m[32m        regLayout.add(headerLabel, 0, 0, 2, 1);[m
+         GridPane.setHalignment(headerLabel, HPos.CENTER);[m
+         GridPane.setMargin(headerLabel, new Insets(20, 0, 20, 0));[m
+ [m
+[31m-        // Add Name Label[m
+[31m-        Label fnameLabel = new Label("Prénom : ");[m
+[31m-        regLayout.add(fnameLabel, 0,1);[m
+[32m+[m[32m        Label prenomLabel = new Label("Prénom : ");[m
+[32m+[m[32m        regLayout.add(prenomLabel, 0, 1);[m
+ [m
+[31m-        // Add Name Text Field[m
+[31m-        TextField fnameField = new TextField();[m
+[31m-        fnameField.setPrefHeight(40);[m
+[31m-        regLayout.add(fnameField, 1,1);[m
+[32m+[m[32m        TextField prenomField = new TextField();[m
+[32m+[m[32m        prenomField.setPrefHeight(40);[m
+[32m+[m[32m        regLayout.add(prenomField, 1, 1);[m
+ [m
+[32m+[m[32m        Label nomLabel = new Label("Nom : ");[m
+[32m+[m[32m        regLayout.add(nomLabel, 0, 2);[m
+ [m
+[31m-        // Add Email Label[m
+[31m-        Label lnameLabel = new Label("Nom : ");[m
+[31m-        regLayout.add(lnameLabel, 0, 2);[m
+[32m+[m[32m        TextField nomField = new TextField();[m
+[32m+[m[32m        nomField.setPrefHeight(40);[m
+[32m+[m[32m        regLayout.add(nomField, 1, 2);[m
+ [m
+[31m-        // Add Email Text Field[m
+[31m-        TextField lnameField = new TextField();[m
+[31m-        lnameField.setPrefHeight(40);[m
+[31m-        regLayout.add(lnameField, 1, 2);[m
+[31m-[m
+[31m-        // Add Password Label[m
+         Label passwordLabel = new Label("Mot de passe : ");[m
+         regLayout.add(passwordLabel, 0, 3);[m
+ [m
+[31m-        // Add Password Field[m
+         PasswordField passwordField = new PasswordField();[m
+         passwordField.setPrefHeight(40);[m
+         regLayout.add(passwordField, 1, 3);[m
+[31m-        // Date[m
+[32m+[m
+         Label dateLabel = new Label("D. de naissaince : ");[m
+         regLayout.add(dateLabel, 0, 4);[m
+ [m
+         DatePicker dateField = new DatePicker();[m
+[31m-        regLayout.add(dateField, 1, 4);[m
+[32m+[m[32m        dateField.setMinWidth(200);[m
+[32m+[m[32m        dateField.setMaxWidth(200);[m
+[32m+[m[32m        dateField.setPrefWidth(200);[m
+[32m+[m
+[32m+[m[32m        HBox line = new HBox(0);[m
+[32m+[m[32m        line.getChildren().add(dateField);[m
+[32m+[m
+[32m+[m[32m        // type du joueur[m
+[32m+[m[32m        TilePane r = new TilePane();[m
+[32m+[m[32m        Label l = new Label("Type :");[m[41m [m
+[32m+[m[32m        l.setPadding(new Insets(0,0,0,30));[m
+[32m+[m
+[32m+[m[32m        ToggleGroup tg = new ToggleGroup();[m
+[32m+[m
+[32m+[m[32m        RadioButton r1 = new RadioButton("Adulte");[m[41m [m
+[32m+[m[32m        RadioButton r2 = new RadioButton("Enfant");[m
+[32m+[m[32m        r1.setSelected(true);[m
+[32m+[m[32m        r1.setPadding(new Insets(0,10,0,10));[m
+[32m+[m
+[32m+[m[32m        r1.setToggleGroup(tg);[m
+[32m+[m[32m        r2.setToggleGroup(tg);[m
+[32m+[m
+[32m+[m[32m        r.getChildren().addAll(l,r1,r2);[m
+[32m+[m[32m        line.getChildren().add(r);[m
+[32m+[m
+[32m+[m[32m        regLayout.add(line, 1, 4);[m
+[32m+[m
+ [m
+[31m-        // Add Submit And Cancel Button[m
+         HBox box = new HBox(50);[m
+         Button submitButton = new Button("S'inscrire");[m
+         submitButton.setPrefHeight(40);[m
+[36m@@ -173,15 +236,21 @@[m [mpublic class EUREKA extends Application {[m
+         Button cancelButton = new Button("Annuler");[m
+         cancelButton.setPrefHeight(40);[m
+         cancelButton.setMinWidth(100);[m
+[31m-        box.getChildren().addAll(submitButton,cancelButton);[m
+[32m+[m[32m        box.getChildren().addAll(submitButton, cancelButton);[m
+         regLayout.add(box, 1, 5, 2, 1);[m
+         GridPane.setHalignment(box, HPos.CENTER);[m
+[32m+[m
+[32m+[m[32m        // fonctions des buttons[m
+         submitButton.setOnAction(event -> {[m
+[31m-            register(fnameField.getText(),lnameField.getText(),passwordField.getText(),dateField.getValue(),regLayout,mainScene);[m
+[32m+[m[32m            RadioButton rb = (RadioButton)tg.getSelectedToggle();[m[41m [m
+[32m+[m[32m            String type = rb.getText();[m[41m [m
+[32m+[m[32m            register(prenomField.getText(), nomField.getText(), passwordField.getText(), dateField.getValue(), type, regLayout, mainScene);[m
+         });[m
+         cancelButton.setOnAction(event -> {[m
+             window.setScene(mainScene);[m
+         });[m
+[32m+[m
+[32m+[m[32m        // changement du page[m
+         window.setScene(regScene);[m
+     }[m
+ [m
+[36m@@ -195,48 +264,37 @@[m [mpublic class EUREKA extends Application {[m
+ [m
+         ColumnConstraints culumn1 = new ColumnConstraints(100, 100, Double.MAX_VALUE);[m
+         culumn1.setHalignment(HPos.RIGHT);[m
+[31m-[m
+[31m-        // columnTwoConstraints will be applied to all the nodes placed in column two.[m
+[31m-        ColumnConstraints column2 = new ColumnConstraints(200,200, Double.MAX_VALUE);[m
+[32m+[m[32m        ColumnConstraints column2 = new ColumnConstraints(200, 200, Double.MAX_VALUE);[m
+         column2.setHgrow(Priority.ALWAYS);[m
+[31m-[m
+         loginLayout.getColumnConstraints().addAll(culumn1, column2);[m
+[31m-        // Add Header[m
+[32m+[m
+         Label headerLabel = new Label("S'identifier");[m
+         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));[m
+[31m-        loginLayout.add(headerLabel, 0,0,2,1);[m
+[32m+[m[32m        loginLayout.add(headerLabel, 0, 0, 2, 1);[m
+         GridPane.setHalignment(headerLabel, HPos.CENTER);[m
+         GridPane.setMargin(headerLabel, new Insets(20, 0, 20, 0));[m
+ [m
+[31m-        // Add Name Label[m
+[31m-        Label fnameLabel = new Label("Prénom : ");[m
+[31m-        loginLayout.add(fnameLabel, 0,1);[m
+[32m+[m[32m        Label prenomLabel = new Label("Prénom : ");[m
+[32m+[m[32m        loginLayout.add(prenomLabel, 0, 1);[m
+ [m
+[31m-        // Add Name Text Field[m
+[31m-        TextField fnameField = new TextField();[m
+[31m-        fnameField.setPrefHeight(40);[m
+[31m-        loginLayout.add(fnameField, 1,1);[m
+[32m+[m[32m        TextField prenomField = new TextField();[m
+[32m+[m[32m        prenomField.setPrefHeight(40);[m
+[32m+[m[32m        loginLayout.add(prenomField, 1, 1);[m
+ [m
+[32m+[m[32m        Label nomLabel = new Label("Nom : ");[m
+[32m+[m[32m        loginLayout.add(nomLabel, 0, 2);[m
+ [m
+[31m-        // Add Email Label[m
+[31m-        Label lnameLabel = new Label("Nom : ");[m
+[31m-        loginLayout.add(lnameLabel, 0, 2);[m
+[32m+[m[32m        TextField nomField = new TextField();[m
+[32m+[m[32m        nomField.setPrefHeight(40);[m
+[32m+[m[32m        loginLayout.add(nomField, 1, 2);[m
+ [m
+[31m-        // Add Email Text Field[m
+[31m-        TextField lnameField = new TextField();[m
+[31m-        lnameField.setPrefHeight(40);[m
+[31m-        loginLayout.add(lnameField, 1, 2);[m
+[31m-[m
+[31m-        // Add Password Label[m
+         Label passwordLabel = new Label("Mot de passe : ");[m
+         loginLayout.add(passwordLabel, 0, 3);[m
+ [m
+[31m-        // Add Password Field[m
+         PasswordField passwordField = new PasswordField();[m
+         passwordField.setPrefHeight(40);[m
+         loginLayout.add(passwordField, 1, 3);[m
+ [m
+[31m-        // Add Submit And Cancel Button[m
+         HBox box = new HBox(50);[m
+         Button submitButton = new Button("S'identifier");[m
+         submitButton.setPrefHeight(40);[m
+[36m@@ -244,129 +302,178 @@[m [mpublic class EUREKA extends Application {[m
+         Button cancelButton = new Button("Annuler");[m
+         cancelButton.setPrefHeight(40);[m
+         cancelButton.setMinWidth(100);[m
+[31m-        box.getChildren().addAll(submitButton,cancelButton);[m
+[32m+[m[32m        box.getChildren().addAll(submitButton, cancelButton);[m
+         loginLayout.add(box, 1, 5, 2, 1);[m
+         GridPane.setHalignment(box, HPos.CENTER);[m
+[32m+[m
+         submitButton.setOnAction(event -> {[m
+[31m-            login(fnameField.getText(),lnameField.getText(),passwordField.getText(),loginLayout,mainScene);[m
+[32m+[m[32m            login(prenomField.getText(), nomField.getText(), passwordField.getText(), loginLayout, mainScene);[m
+         });[m
+         cancelButton.setOnAction(event -> {[m
+             window.setScene(mainScene);[m
+         });[m
+[32m+[m
+         loginLayout.setAlignment(Pos.CENTER);[m
+[32m+[m
+         window.setScene(loginScene);[m
+     }[m
+ [m
+[31m-    public void createSettingsPage(Scene mainScene, VBox mainLayout) {[m
+[32m+[m[32m    public void createSettingsPage(Scene mainScene, VBox mainLayout) { // la page des préférences[m
+         VBox layout = new VBox(20);[m
+         layout.setAlignment(Pos.CENTER);[m
+[31m-        Scene settings = new Scene(layout,640,320);[m
+[32m+[m[32m        Scene settings = new Scene(layout, 640, 320);[m
+ [m
+[32m+[m[32m        FileChooser questFile = new FileChooser(); // pour sélectionner le fichier[m
+[32m+[m[32m        questFile.getExtensionFilters().addAll(new ExtensionFilter("Text", "*.txt")); // filtre[m
+ [m
+[31m-        FileChooser questFile = new FileChooser();[m
+[31m-        questFile.getExtensionFilters().addAll(new ExtensionFilter("Text", "*.txt"));[m
+[31m-        [m
+         HBox question = new HBox(5);[m
+         question.setAlignment(Pos.CENTER);[m
+         TextField questionPath = new TextField();[m
+[32m+[m[32m        if (!questionsFile.isEmpty())[m
+[32m+[m[32m            questionPath.setText(questionsFile);[m
+         Button chooseQuestFile = new Button("Sélectionner le fichier de questions");[m
+         chooseQuestFile.setOnAction(e -> {[m
+[31m-            File file = questFile.showOpenDialog(window); [m
+[31m-            if (file != null) { [m
+[31m-                questionPath.setText(file.getAbsolutePath()); [m
+[31m-            } [m
+[32m+[m[32m            File file = questFile.showOpenDialog(window);[m
+[32m+[m[32m 

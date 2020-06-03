@@ -1,4 +1,4 @@
-package EUREKA.com.usthb.modeles;
+package com.usthb.modeles;
 
 public class PartieJeu {
     int num;
@@ -16,6 +16,11 @@ public class PartieJeu {
 
     public boolean checkCharacter(char c) {
         if (getQuestionReponse().toUpperCase().contains(Character.toString(c).toUpperCase())) {
+            // toUpperCase()
+            // java est sensible aux majuscules et minuscules
+            // si on veut comparer des characteres
+            // nous les transformons en majuscules ou en minuscules
+            // nous utilisons des majuscules
             return true;
         } else {
             return false;
@@ -24,6 +29,10 @@ public class PartieJeu {
 
     public String getThemeText() {
         return this.theme.getThemeText();
+    }
+
+    public String getThemeType() {
+        return this.theme.getThemeType();
     }
 
     public ThemeJeu getTheme() {

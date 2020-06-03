@@ -1,0 +1,69 @@
+5
+Question Histoire Adulte 1##reponse1##img1.png
+Question Histoire Adulte 2##reponse2##img2.png
+Question Histoire Adulte 3##reponse3
+Question Histoire Adulte 4##reponse4##img4.png
+Question Histoire Adulte 5##reponse5
+--------------------------------------------------
+4
+Question Géographie Adulte 1##reponse1##img1.png
+Question Géographie Adulte 2##reponse2##img2.png
+Question Géographie Adulte 3##reponse3
+Question Géographie Adulte 4##reponse4##img4.png
+Question Géographie Adulte 5##reponse5
+--------------------------------------------------
+2
+Question Santé Adulte 1##reponse1##img1.png
+Question Santé Adulte 2##reponse2##img2.png
+Question Santé Adulte 3##reponse3##img3.png
+Question Santé Adulte 4##reponse4##img4.png
+Question Santé Adulte 5##reponse5
+--------------------------------------------------
+3
+Question Culture Générale Adulte 1##reponse1##img1.png
+Question Culture Générale Adulte 2##reponse2##img2.png
+Question Culture Générale Adulte 3##reponse3
+Question Culture Générale Adulte 4##reponse4##img4.png
+Question Culture Générale Adulte 5##reponse5
+--------------------------------------------------
+5
+Question Islam Adulte 1##reponse1##img1.png
+Question Islam Adulte 2##reponse2
+Question Islam Adulte 3##reponse3##img3.png
+Question Islam Adulte 4##reponse4
+Question Islam Adulte 5##reponse5
+--------------------------------------------------
+5
+Question Histoire Enfant 1##reponse1
+Question Histoire Enfant 2##reponse2
+Question Histoire Enfant 3##reponse3##img3.png
+Question Histoire Enfant 4##reponse4
+Question Histoire Enfant 5##reponse5##img5.png
+--------------------------------------------------
+4
+Question Géographie Enfant 1##reponse1##img1.png
+Question Géographie Enfant 2##reponse2
+Question Géographie Enfant 3##reponse3
+Question Géographie Enfant 4##reponse4
+Question Géographie Enfant 5##reponse5
+--------------------------------------------------
+2
+Question Santé Enfant 1##reponse1##img1.png
+Question Santé Enfant 2##reponse2##img2.png
+Question Santé Enfant 3##reponse3##img3.png
+Question Santé Enfant 4##reponse4##img4.png
+Question Santé Enfant 5##reponse5
+--------------------------------------------------
+3
+Question Culture Générale Enfant 1##reponse1
+Question Culture Générale Enfant 2##reponse2
+Question Culture Générale Enfant 3##reponse3
+Question Culture Générale Enfant 4##reponse4##img4.png
+Question Culture Générale Enfant 5##reponse5##img5.png
+--------------------------------------------------
+5
+Question Islam Enfant 1##reponse1
+Question Islam Enfant 2##reponse2##img2.png
+Question Islam Enfant 3##reponse3##img3.png
+Question Islam Enfant 4##reponse4
+Question Islam Enfant 5##reponse5

@@ -1,11 +1,13 @@
-package EUREKA.com.usthb.dessin;
+package com.usthb.dessin;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Component;
 
-public class Potence extends JPanel {
+public class Potence extends Component {
+    private static final long serialVersionUID = 1L;
+    
     int etat;
     boolean trouve;
     Dimension dimension;
@@ -15,6 +17,7 @@ public class Potence extends JPanel {
         this.trouve = false;
         dimension = new Dimension(155, 210);
         this.setPreferredSize(dimension);
+        this.setBackground(Color.RED);
     }
 
     public void incrementEtat() {
@@ -42,12 +45,12 @@ public class Potence extends JPanel {
         // Le dessin s'adapte à l'espace attribué
         // dimension = getSize(); // de Component
         g.clearRect(7, 0, dimension.width - 1, dimension.height - 1); // effacer
-        g.drawRect(7, 0, dimension.width - 1, dimension.height - 1); // tracer le cadre
+        g.drawRect(7, 2, dimension.width - 8, dimension.height - 3); // tracer le cadre
         // s'adapter à l'espace du composant
         int taille = 12 * (dimension.width / 120);
         if (taille < 8)
             taille = 8;
-        g.setFont(new Font("TimesRoman", Font.PLAIN, taille));
+        // g.setFont(new Font("TimesRoman", Font.PLAIN, taille));
         if (etat >= 1)
             g.drawLine(l(30), h(120), l(90), h(120));
         if (etat >= 2)
@@ -61,7 +64,7 @@ public class Potence extends JPanel {
         if (etat >= 6)
             g.drawLine(l(70), h(40), l(70), h(60));
         if (etat >= 7)
-            g.drawOval(l(65), h(60), l(10) + 30, h(10) + 50); // tête
+            g.drawOval(l(65), h(60), l(10) + 35, h(10) + 50); // tête
         if (etat >= 8) {
             g.drawLine(l(70), h(70), l(70), h(85)); // corps
             g.drawLine(l(70), h(70), l(65), h(75)); // corps
@@ -80,7 +83,7 @@ public class Potence extends JPanel {
     // Mise à l'échelle en largeur de v
     int l(int v) {
         double k = Math.min(dimension.width / 140., dimension.height / 160);
-        return (int) (v * 2 * k) - 30;
+        return (int) (v * 2 * k) - 35;
     }
 
     // Mise à l'échelle en hauteur de v

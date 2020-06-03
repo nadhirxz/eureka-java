@@ -1,7 +1,7 @@
-package EUREKA.com.usthb.modeles;
+package com.usthb.modeles;
 
 public class Question {
-    String label;
+    String libelle;
     static int HIS = 0;
     static int GEO = 0;
     static int SAN = 0;
@@ -11,24 +11,9 @@ public class Question {
     String image = "";
     String reponse;
     int niveau;
-    
-    public Question(String label, String type, String reponse, int niveau) {
-        this.label = label;
-        this.reponse = reponse;
-        this.niveau = niveau;
-        int n = 0;
-        switch (type) {
-            case "HIS": HIS++; n=HIS; break;
-            case "GEO": GEO++; n=GEO; break;
-            case "SAN": SAN++; n=SAN; break;
-            case "CUL": CUL++; n=CUL; break;
-            case "ISL": ISL++; n=ISL; break;
-        }
-        this.num = type+n;
-    }
 
-    public Question(String label, String type, String reponse, int niveau, String image) {
-        this.label = label;
+    public Question(String libelle, String type, String reponse, int niveau, String image) {
+        this.libelle = libelle;
         this.reponse = reponse;
         this.niveau = niveau;
         this.image = image;
@@ -56,7 +41,7 @@ public class Question {
     }
 
     public String getText() {
-        return this.label;
+        return this.libelle;
     }
 
     public String getReponse() {
